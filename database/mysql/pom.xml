@@ -13,7 +13,7 @@
   <artifactId>mysql</artifactId>
 
   <properties>
-    <mariadb-client.version>2.7.4</mariadb-client.version>
+    <mariadb-client.version>3.0.3</mariadb-client.version>
   </properties>
 
   <dependencies>

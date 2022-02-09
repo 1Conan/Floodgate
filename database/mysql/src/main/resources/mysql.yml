@@ -2,3 +2,8 @@ hostname: "localhost"
 database: "floodgate"
 username: "floodgate"
 password: ""
+minPoolSize: 2
+maxPoolSize: 10
+options: "useSSL=false"
+
+# url: "jdbc:mysql://localhost:3306/floodgate?user=floodgate&password=&useSSL=true&minPoolSize=2&maxPoolSize=10"

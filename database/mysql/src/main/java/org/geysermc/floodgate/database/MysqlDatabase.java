@@ -57,25 +57,25 @@ public class MysqlDatabase extends CommonPlayerLink {
 
             pool = new MariaDbPoolDataSource();
 
-            String hostname = databaseconfig.getHostname();
-            if (hostname.contains(":")) {
-                String[] split = hostname.split(":");
-
-                pool.setServerName(split[0]);
-                try {
-                    pool.setPortNumber(Integer.parseInt(split[1]));
-                } catch (NumberFormatException exception) {
-                    getLogger().info("{} is not a valid port! Will use the default port", split[1]);
-                }
+            String url = databaseconfig.getUrl();
+            if (!url.isEmpty()) {
+                pool.setUrl(url);
             } else {
-                pool.setServerName(hostname);
-            }
+                String hostname = databaseconfig.getHostname();
+                String database = databaseconfig.getDatabase();
+                String options = databaseconfig.getOptions();
+                int minPoolSize = databaseconfig.getMinPoolSize();
+                int maxPoolSize = databaseconfig.getMaxPoolSize();
 
-            pool.setUser(databaseconfig.getUsername());
-            pool.setPassword(databaseconfig.getPassword());
-            pool.setDatabaseName(databaseconfig.getDatabase());
-            pool.setMinPoolSize(2);
-            pool.setMaxPoolSize(10);
+                url = "jdbc:mariadb://" + hostname + "/" + database +
+                    "?minPoolSize=" + minPoolSize + "&maxPoolSize=" + maxPoolSize;
+                if (!options.isEmpty()) {
+                    url += "&" + options;
+                }
+
+                pool.setUser(databaseconfig.getUsername());
+                pool.setPassword(databaseconfig.getPassword());
+            }
 
             try (Connection connection = pool.getConnection()) {
                 try (Statement statement = connection.createStatement()) {

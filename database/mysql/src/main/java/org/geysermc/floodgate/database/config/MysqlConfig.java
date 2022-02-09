@@ -29,8 +29,14 @@ import lombok.Getter;
 
 @Getter
 public class MysqlConfig implements DatabaseConfig {
+        private String url;
+
         private String hostname = "localhost";
         private String database = "floodgate";
         private String username = "floodgate";
         private String password;
+        private String options;
+
+        private int minPoolSize = 2;
+        private int maxPoolSize = 10;
 }
